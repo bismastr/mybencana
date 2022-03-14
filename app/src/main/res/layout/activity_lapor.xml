@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LaporActivity">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="Title"
+        android:textColor="@color/black" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tip_title"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@color/secondaryColor"
+        app:boxStrokeWidth="1dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_title"
+            android:layout_width="328dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/montserrat_light"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:textColor="@color/black" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_deskripsi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tip_title"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="7dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="Deskripsi"
+        android:textColor="@color/black" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tip_deskripsi"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_deskripsi"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@color/secondaryColor"
+        app:boxStrokeWidth="1dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_deskripsi"
+            android:layout_width="328dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/montserrat_light"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_lokasi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tip_deskripsi"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="7dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="Foto"
+        android:textColor="@color/black" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tip_foto"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_lokasi"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@color/secondaryColor"
+        app:boxStrokeWidth="1dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_foto"
+            android:layout_width="328dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/montserrat_light"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_laporan"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/tip_foto"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="@color/secondaryColor"
+        android:fontFamily="@font/roboto"
+        android:text="SAVE LAPORAN"
+        android:textColor="@color/primaryColor"
+        android:textStyle="bold"
+        app:cornerRadius="10dp" />
+</RelativeLayout>

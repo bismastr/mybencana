@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "394239512207",
+    "firebase_url": "https://laporan-bencana-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "laporan-bencana",
+    "storage_bucket": "laporan-bencana.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394239512207:android:580d7151a7697fdc30aafa",
+        "android_client_info": {
+          "package_name": "com.bismastr.mybencana"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "394239512207-ctmorkooqag2as57752ppd326usr8om7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bismastr.mybencana",
+            "certificate_hash": "771b175bb6b23a5142843daaa54a360409eda7b0"
+          }
+        },
+        {
+          "client_id": "394239512207-pn8mamfn5g0ghrptmtk2j1b8182ap6v6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLv8yT6bgdgvy_rHq3Z6E0mLjCpKCpq-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "394239512207-pn8mamfn5g0ghrptmtk2j1b8182ap6v6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
