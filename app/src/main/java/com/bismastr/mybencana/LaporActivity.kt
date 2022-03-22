@@ -1,17 +1,28 @@
 package com.bismastr.mybencana
 
-import android.content.ContentValues.TAG
+import android.app.ProgressDialog
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.TextUtils
-import android.util.Log
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bismastr.mybencana.databinding.ActivityLaporBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import java.io.ByteArrayOutputStream
+import java.util.*
 
 class LaporActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLaporBinding
-
+    private lateinit var currentLat: String
+    private lateinit var currentLong: String
+    private var photoReference: String = "null"
+    private  var imageBitmap: Bitmap? = null
+    private val REQUEST_IMAGE_CAPTURE = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLaporBinding.inflate(layoutInflater)
@@ -22,23 +33,73 @@ class LaporActivity : AppCompatActivity() {
             saveLaporan()
         }
 
+        currentLong = intent.getStringExtra("EXTRA_CURRENT_LONG").toString()
+        currentLat = intent.getStringExtra("EXTRA_CURRENT_LAT").toString()
 
+        binding.imgGambar.setOnClickListener{
+            dispatchTakePictureIntent()
+        }
     }
 
-    private fun uploadFirebase(deskripsi: String, title: String, foto: String) {
+    private fun uploadFirebase(deskripsi: String, title: String,lat: String, long: String) {
+        uploadPhoto(imageBitmap)
         val db = FirebaseFirestore.getInstance()
         val laporan: MutableMap<String, Any> = HashMap()
         laporan["deskripsi"] = deskripsi
         laporan["title"] = title
-        laporan["foto"] = foto
+        laporan["foto"] = photoReference
+        laporan["latitude"] = lat
+        laporan["longitude"] = long
 
         db.collection("laporan")
             .add(laporan)
             .addOnSuccessListener {
                 Toast.makeText(this, "Complete added laporan", Toast.LENGTH_SHORT).show()
+                uploadPhoto(imageBitmap)
             }.addOnFailureListener {
                 Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
             }
+    }
+
+    private fun uploadPhoto(image: Bitmap?) {
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        val randomKey = UUID.randomUUID().toString()
+        photoReference = "images/$randomKey"
+        val imageRef = storageRef.child(photoReference)
+        val baos = ByteArrayOutputStream()
+        image?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        imageRef.putBytes(data)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Uploaded", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, MapsActivity::class.java))
+            }
+            .addOnFailureListener{
+                Toast.makeText(this, "Failed Uploaded", Toast.LENGTH_SHORT).show()
+            }
+            .addOnProgressListener {
+                Toast.makeText(this, "Uploading", Toast.LENGTH_SHORT).show()
+            }
+
+    }
+
+    private fun dispatchTakePictureIntent() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        try {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+        } catch (e: ActivityNotFoundException) {
+            // display error state to the user
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            imageBitmap = data?.extras?.get("data") as Bitmap
+            binding.imgGambar.setImageBitmap(imageBitmap)
+        }
     }
 
     private fun saveLaporan() {
@@ -59,10 +120,10 @@ class LaporActivity : AppCompatActivity() {
                 ).show()
             }
 
-            TextUtils.isEmpty(binding.etFoto.text.toString().trim { it <= ' ' }) -> {
+            imageBitmap == null -> {
                 Toast.makeText(
                     this,
-                    "Please Enter Foto",
+                    "Input Photo",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -70,8 +131,8 @@ class LaporActivity : AppCompatActivity() {
             else -> {
                 val title: String = binding.etTitle.text.toString()
                 val deskripsi: String = binding.etDeskripsi.text.toString()
-                val foto: String = binding.etFoto.text.toString()
-                uploadFirebase(deskripsi,title,foto)
+                uploadFirebase(deskripsi,title, currentLat, currentLong)
+
             }
         }
     }

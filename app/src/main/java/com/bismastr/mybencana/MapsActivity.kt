@@ -12,22 +12,24 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bismastr.mybencana.databinding.ActivityMapsBinding
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
-
-    private lateinit var locationRequest: LocationRequest
 
     private lateinit var binding: ActivityMapsBinding
 
     private var map: GoogleMap? = null
+
+    private lateinit var mHashMarker: HashMap<Marker?, String>
 
     // The entry point to the Fused Location Provider.
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -47,10 +49,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        locationRequest = LocationRequest.create()
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 20 * 1000
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -63,9 +61,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding.btnLaporan.setOnClickListener {
             val intent = Intent(this, LaporActivity::class.java)
-            intent.putExtra("EXTRA_CURRENT_LOCATION",lastKnownLocation )
+            intent.putExtra("EXTRA_CURRENT_LONG",lastKnownLocation!!.longitude.toString() )
+            intent.putExtra("EXTRA_CURRENT_LAT",lastKnownLocation!!.latitude.toString() )
             startActivity(intent)
         }
+
+        mHashMarker = HashMap()
+
+
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -80,6 +83,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation()
+
+        readFireStoreData()
+
+        map.setOnMarkerClickListener {
+            val pos = mHashMarker[it]
+            Log.d("MARKER", pos+"")
+            false
+        }
     }
 
     // [START maps_current_place_get_device_location]
@@ -162,6 +173,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         try {
             if (locationPermissionGranted) {
+                getDeviceLocation()
                 map?.isMyLocationEnabled = true
                 map?.uiSettings?.isMyLocationButtonEnabled = true
             } else {
@@ -177,7 +189,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         private val TAG = MapsActivity::class.java.simpleName
-        private const val DEFAULT_ZOOM = 25
+        private const val DEFAULT_ZOOM = 15
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
     }
 
@@ -186,4 +198,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
     }
+
+    private fun readFireStoreData(){
+        val db = FirebaseFirestore.getInstance()
+        db.collection("laporan")
+            .get()
+            .addOnCompleteListener {
+                for(document in it.result){
+                    val marker: Marker? = map?.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(document.data.getValue("latitude").toString().toDouble(), document.data.getValue("longitude").toString().toDouble()))
+                    )
+                    Log.d("FIRESTORE", "${document.id} => ${document.data.getValue("latitude")}")
+
+                    mHashMarker[marker] = document.id
+                }
+            }
+    }
+
 }
