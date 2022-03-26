@@ -1,13 +1,11 @@
 package com.bismastr.mybencana
 
-import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bismastr.mybencana.databinding.ActivityLaporBinding
@@ -22,8 +20,10 @@ class LaporActivity : AppCompatActivity() {
     private lateinit var currentLong: String
     private var photoReference: String = "null"
     private  var imageBitmap: Bitmap? = null
-    private val REQUEST_IMAGE_CAPTURE = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
         binding = ActivityLaporBinding.inflate(layoutInflater)
         val view = binding.root
@@ -135,5 +135,9 @@ class LaporActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    companion object {
+        private const val REQUEST_IMAGE_CAPTURE = 1
     }
 }

@@ -89,6 +89,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         map.setOnMarkerClickListener {
             val pos = mHashMarker[it]
             Log.d("MARKER", pos+"")
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("EXTRA_MARKER_ID", pos)
+            startActivity(intent)
             false
         }
     }
