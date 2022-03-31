@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bismastr.mybencana.databinding.ActivityLaporBinding
@@ -28,7 +29,7 @@ class LaporActivity : AppCompatActivity() {
         binding = ActivityLaporBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
+        dropDownBencana()
         binding.btnLaporan.setOnClickListener {
             saveLaporan()
         }
@@ -41,13 +42,20 @@ class LaporActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadFirebase(deskripsi: String, title: String,lat: String, long: String) {
+    private fun dropDownBencana(){
+        val bencanaDropdown = resources.getStringArray(R.array.bencana)
+        val arrayAdapterView = ArrayAdapter(applicationContext, R.layout.dropdown_item, bencanaDropdown)
+        binding.autoCompleteTextView.setAdapter(arrayAdapterView)
+    }
+
+    private fun uploadFirebase(deskripsi: String, title: String,lat: String, long: String, tipeBencana: String) {
         uploadPhoto(imageBitmap)
         val db = FirebaseFirestore.getInstance()
         val laporan: MutableMap<String, Any> = HashMap()
         laporan["deskripsi"] = deskripsi
         laporan["title"] = title
         laporan["foto"] = photoReference
+        laporan["tipeBencana"] = tipeBencana
         laporan["latitude"] = lat
         laporan["longitude"] = long
 
@@ -131,7 +139,8 @@ class LaporActivity : AppCompatActivity() {
             else -> {
                 val title: String = binding.etTitle.text.toString()
                 val deskripsi: String = binding.etDeskripsi.text.toString()
-                uploadFirebase(deskripsi,title, currentLat, currentLong)
+                val tipeBencana: String = binding.autoCompleteTextView.text.toString()
+                uploadFirebase(deskripsi,title, currentLat, currentLong, tipeBencana)
 
             }
         }

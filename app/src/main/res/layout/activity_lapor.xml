@@ -85,22 +85,22 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/tv_lokasi"
+        android:id="@+id/tv_bencana"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tip_deskripsi"
         android:layout_marginStart="42dp"
         android:layout_marginTop="7dp"
         android:fontFamily="@font/roboto_light"
-        android:text="Foto"
+        android:text="Tipe Bencana"
         android:textColor="@color/black" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tip_foto"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="328dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_lokasi"
+        android:layout_below="@+id/tv_bencana"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
@@ -109,28 +109,24 @@
         app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
-        app:boxStrokeColor="@color/secondaryColor"
         app:boxStrokeWidth="1dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_foto"
-            android:layout_width="328dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/montserrat_light"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textColor="@color/black" />
+       <AutoCompleteTextView
+           android:id="@+id/autoCompleteTextView"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:inputType="none"
+           android:text="Banjir"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_laporan"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@+id/img_gambar"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="25dp"
         android:layout_marginEnd="40dp"
+        android:layout_marginBottom="20dp"
         android:backgroundTint="@color/secondaryColor"
         android:fontFamily="@font/roboto"
         android:text="SAVE LAPORAN"
@@ -138,14 +134,35 @@
         android:textStyle="bold"
         app:cornerRadius="10dp" />
 
-    <androidx.constraintlayout.utils.widget.ImageFilterView
-        android:id="@+id/img_gambar"
-        android:layout_width="50pt"
-        android:layout_height="50pt"
+    <TextView
+        android:id="@+id/tv_foto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/tip_foto"
-        android:layout_alignStart="@+id/tip_foto"
-        android:layout_marginTop="27dp"
-        android:src="@drawable/ic_launcher_background">
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="7dp"
+        android:textColor="@color/black"
+        android:text="Foto" />
 
-    </androidx.constraintlayout.utils.widget.ImageFilterView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/tv_foto"
+        android:layout_alignStart="@+id/tip_foto"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:cardPreventCornerOverlap="true">
+
+        <ImageView
+            android:id="@+id/img_gambar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_baseline_camera_alt_24" />
+    </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">mybencana</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string-array name="bencana">
+        <item>Gempa Bumi</item>
+        <item>Banjir</item>
+        <item>Longsor</item>
+        <item>Angin Topan</item>
+    </string-array>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

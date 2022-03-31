@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-
+        supportActionBar?.hide()
         Handler(mainLooper).postDelayed({
             auth = Firebase.auth
             val currentUser = auth.currentUser

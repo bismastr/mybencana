@@ -1,9 +1,8 @@
 package com.bismastr.mybencana
 
-import android.content.ContentValues.TAG
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.bismastr.mybencana.databinding.ActivityDetailBinding
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.ktx.firestore
@@ -55,7 +54,7 @@ class DetailActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 Glide.with(applicationContext)
                     .load(localFile)
-                    .fitCenter()
+                    .centerCrop()
                     .into(binding.imgGambarLaporan)
             }
 

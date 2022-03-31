@@ -15,7 +15,7 @@
         android:layout_marginStart="42dp"
         android:layout_marginTop="82dp"
         android:fontFamily="@font/roboto"
-        android:text="Ride Better"
+        android:text="Help Others"
         android:textColor="@color/black"
         android:textSize="42sp" />
 
@@ -34,7 +34,7 @@
         android:layout_marginStart="42dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto_light"
-        android:text="Join Our Community"
+        android:text="Public Disaster Report "
         android:textColor="@color/black"
         android:textSize="13sp" />
 
