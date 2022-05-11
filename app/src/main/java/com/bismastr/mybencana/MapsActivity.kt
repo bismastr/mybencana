@@ -2,28 +2,27 @@ package com.bismastr.mybencana
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bismastr.mybencana.databinding.ActivityMapsBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
 
     private lateinit var binding: ActivityMapsBinding
 
@@ -48,7 +47,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        supportActionBar?.hide()
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -60,10 +59,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         binding.btnLaporan.setOnClickListener {
-            val intent = Intent(this, LaporActivity::class.java)
-            intent.putExtra("EXTRA_CURRENT_LONG",lastKnownLocation!!.longitude.toString() )
-            intent.putExtra("EXTRA_CURRENT_LAT",lastKnownLocation!!.latitude.toString() )
-            startActivity(intent)
+            manualGeolocation()
         }
 
         mHashMarker = HashMap()
@@ -72,6 +68,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(map: GoogleMap) {
+        val success = map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_json))
+
+        if (!success) {
+            Log.e(TAG, "Style parsing failed.");
+        }
         this.map = map
 
         // Prompt the user for permission.
@@ -88,7 +89,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         map.setOnMarkerClickListener {
             val pos = mHashMarker[it]
-            Log.d("MARKER", pos+"")
+            Log.d("MARKER", pos + "")
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra("EXTRA_MARKER_ID", pos)
             startActivity(intent)
@@ -111,15 +112,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         // Set the map's camera position to the current location of the device.
                         lastKnownLocation = task.result
                         if (lastKnownLocation != null) {
-                            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                LatLng(lastKnownLocation!!.latitude,
-                                    lastKnownLocation!!.longitude), DEFAULT_ZOOM.toFloat()))
+                            map?.moveCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                    LatLng(
+                                        lastKnownLocation!!.latitude,
+                                        lastKnownLocation!!.longitude
+                                    ), DEFAULT_ZOOM.toFloat()
+                                )
+                            )
                         }
                     } else {
                         Log.d(TAG, "Current location is null. Using defaults.")
                         Log.e(TAG, "Exception: %s", task.exception)
-                        map?.moveCamera(CameraUpdateFactory
-                            .newLatLngZoom(defaultLocation, DEFAULT_ZOOM.toFloat()))
+                        map?.moveCamera(
+                            CameraUpdateFactory
+                                .newLatLngZoom(defaultLocation, DEFAULT_ZOOM.toFloat())
+                        )
                         map?.uiSettings?.isMyLocationButtonEnabled = false
                     }
                 }
@@ -137,28 +145,36 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
-        if (ContextCompat.checkSelfPermission(this.applicationContext,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this.applicationContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            == PackageManager.PERMISSION_GRANTED
+        ) {
             locationPermissionGranted = true
         } else {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+            ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
+            )
         }
     }
     // [END maps_current_place_location_permission]
 
     // [START maps_current_place_on_request_permissions_result]
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         locationPermissionGranted = false
         when (requestCode) {
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
 
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.isNotEmpty() &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
                     locationPermissionGranted = true
                 }
             }
@@ -196,27 +212,90 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
     }
 
-    private fun signOut(){
+    private fun signOut() {
         FirebaseAuth.getInstance().signOut()
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
     }
 
-    private fun readFireStoreData(){
+    private fun readFireStoreData() {
         val db = FirebaseFirestore.getInstance()
         db.collection("laporan")
             .get()
             .addOnCompleteListener {
-                for(document in it.result){
+                for (document in it.result) {
                     val marker: Marker? = map?.addMarker(
                         MarkerOptions()
-                            .position(LatLng(document.data.getValue("latitude").toString().toDouble(), document.data.getValue("longitude").toString().toDouble()))
+                            .position(
+                                LatLng(
+                                    document.data.getValue("latitude").toString().toDouble(),
+                                    document.data.getValue("longitude").toString().toDouble()
+                                )
+                            )
+                            .icon(
+                                iconSelector(document.data.getValue("tipeBencana").toString())
+                            )
                     )
                     Log.d("FIRESTORE", "${document.id} => ${document.data.getValue("latitude")}")
 
                     mHashMarker[marker] = document.id
                 }
             }
+    }
+
+    private fun iconSelector(type: String): BitmapDescriptor? {
+        Log.d("TYPE", type)
+       when(type){
+           "Banjir" -> return bitmapDescriptorFromVector(this, R.drawable.banjir_logo)
+           "Gempa Bumi" -> return bitmapDescriptorFromVector(this, R.drawable.gempa_logo)
+           "Angin Topan" -> return bitmapDescriptorFromVector(this, R.drawable.angin_logo)
+           "Longsor" -> return bitmapDescriptorFromVector(this, R.drawable.longsor_logo)
+           "Kebakaran Hutan" -> return bitmapDescriptorFromVector(this, R.drawable.kahutla_logo)
+           "Gelombang Pasang" -> return bitmapDescriptorFromVector(this, R.drawable.gelombang_logo)
+           "Kekeringan" -> return bitmapDescriptorFromVector(this, R.drawable.kekeringan_logo)
+           else -> return bitmapDescriptorFromVector(this, R.drawable.ic_marker)
+       }
+    }
+
+    private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
+        return ContextCompat.getDrawable(context, vectorResId)?.run {
+            setBounds(0, 0, 100, 100)
+            val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+            draw(Canvas(bitmap))
+            BitmapDescriptorFactory.fromBitmap(bitmap)
+        }
+    }
+
+    private fun manualGeolocation() {
+        binding.imgMarker.visibility = View.VISIBLE
+        binding.btnLaporan.visibility = View.GONE
+        binding.btnSetlocation.visibility = View.VISIBLE
+        binding.btnSignout.visibility = View.GONE
+
+        if (lastKnownLocation != null) {
+            map?.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        lastKnownLocation!!.latitude,
+                        lastKnownLocation!!.longitude
+                    ), DEFAULT_ZOOM.toFloat()
+                )
+            )
+        }
+
+        map?.setOnCameraIdleListener(this@MapsActivity)
+    }
+
+    override fun onCameraIdle() {
+        val center: LatLng? = map?.cameraPosition?.target
+        Log.d("CENTER", "${center?.longitude} => ${center?.latitude}")
+
+        binding.btnSetlocation.setOnClickListener {
+            val intent = Intent(this, LaporActivity::class.java)
+            intent.putExtra("EXTRA_CURRENT_LONG", center!!.longitude.toString())
+            intent.putExtra("EXTRA_CURRENT_LAT", center.latitude.toString())
+            startActivity(intent)
+        }
     }
 
 }

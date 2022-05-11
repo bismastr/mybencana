@@ -5,10 +5,16 @@
         <item>Gempa Bumi</item>
         <item>Banjir</item>
         <item>Longsor</item>
-        <item>Angin Topan</item>
+        <item>Longsor</item>
+        <item>Kebakaran Hutan</item>
+        <item>Gelombang Pasang</item>
+        <item>Kekeringan</item>
+
     </string-array>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="map_id">4f9c0abe4e037760</string>
+    <string name="loremipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
 </resources>

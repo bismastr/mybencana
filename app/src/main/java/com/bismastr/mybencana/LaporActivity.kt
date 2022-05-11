@@ -13,14 +13,17 @@ import com.bismastr.mybencana.databinding.ActivityLaporBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
 import java.util.*
 
 class LaporActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLaporBinding
     private lateinit var currentLat: String
     private lateinit var currentLong: String
+    private lateinit var currentDate: String
+    private lateinit var currentTime: String
     private var photoReference: String = "null"
-    private  var imageBitmap: Bitmap? = null
+    private var imageBitmap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -29,6 +32,7 @@ class LaporActivity : AppCompatActivity() {
         binding = ActivityLaporBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        supportActionBar?.hide()
         dropDownBencana()
         binding.btnLaporan.setOnClickListener {
             saveLaporan()
@@ -37,18 +41,28 @@ class LaporActivity : AppCompatActivity() {
         currentLong = intent.getStringExtra("EXTRA_CURRENT_LONG").toString()
         currentLat = intent.getStringExtra("EXTRA_CURRENT_LAT").toString()
 
-        binding.imgGambar.setOnClickListener{
+        binding.imgGambar.setOnClickListener {
             dispatchTakePictureIntent()
         }
+
+        getTime()
     }
 
-    private fun dropDownBencana(){
+    private fun dropDownBencana() {
         val bencanaDropdown = resources.getStringArray(R.array.bencana)
-        val arrayAdapterView = ArrayAdapter(applicationContext, R.layout.dropdown_item, bencanaDropdown)
+        val arrayAdapterView =
+            ArrayAdapter(applicationContext, R.layout.dropdown_item, bencanaDropdown)
         binding.autoCompleteTextView.setAdapter(arrayAdapterView)
     }
 
-    private fun uploadFirebase(deskripsi: String, title: String,lat: String, long: String, tipeBencana: String) {
+    private fun uploadFirebase(
+        deskripsi: String,
+        title: String,
+        lat: String,
+        long: String,
+        tipeBencana: String,
+        dampak: String
+    ) {
         uploadPhoto(imageBitmap)
         val db = FirebaseFirestore.getInstance()
         val laporan: MutableMap<String, Any> = HashMap()
@@ -56,8 +70,11 @@ class LaporActivity : AppCompatActivity() {
         laporan["title"] = title
         laporan["foto"] = photoReference
         laporan["tipeBencana"] = tipeBencana
+        laporan["dampak"] = dampak
         laporan["latitude"] = lat
         laporan["longitude"] = long
+        laporan["time"] = currentTime
+        laporan["date"] = currentDate
 
         db.collection("laporan")
             .add(laporan)
@@ -83,14 +100,20 @@ class LaporActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 Toast.makeText(this, "Uploaded", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, MapsActivity::class.java))
+                finish()
             }
-            .addOnFailureListener{
+            .addOnFailureListener {
                 Toast.makeText(this, "Failed Uploaded", Toast.LENGTH_SHORT).show()
             }
-            .addOnProgressListener {
-                Toast.makeText(this, "Uploading", Toast.LENGTH_SHORT).show()
-            }
 
+    }
+
+    private fun getTime() {
+        val c = Calendar.getInstance()
+        val df = SimpleDateFormat("yyyy-MM-dd")
+        val dt = SimpleDateFormat("HH:mm:ss")
+        currentDate = df.format(c.time)
+        currentTime = dt.format(c.time)
     }
 
     private fun dispatchTakePictureIntent() {
@@ -128,10 +151,18 @@ class LaporActivity : AppCompatActivity() {
                 ).show()
             }
 
+            TextUtils.isEmpty(binding.etDampak.text.toString().trim { it <= ' ' }) -> {
+                Toast.makeText(
+                    this,
+                    "Please Enter Dampak",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
             imageBitmap == null -> {
                 Toast.makeText(
                     this,
-                    "Input Photo",
+                    "Please Input Photo",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -140,8 +171,8 @@ class LaporActivity : AppCompatActivity() {
                 val title: String = binding.etTitle.text.toString()
                 val deskripsi: String = binding.etDeskripsi.text.toString()
                 val tipeBencana: String = binding.autoCompleteTextView.text.toString()
-                uploadFirebase(deskripsi,title, currentLat, currentLong, tipeBencana)
-
+                val dampak: String = binding.etDampak.text.toString()
+                uploadFirebase(deskripsi, title, currentLat, currentLong, tipeBencana, dampak)
             }
         }
     }

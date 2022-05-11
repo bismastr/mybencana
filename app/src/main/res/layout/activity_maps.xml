@@ -1,33 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent">
 
-    <Button
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_signout"
         android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/secondaryColor"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="19dp"
-        android:layout_marginBottom="22dp"
-        android:text="logout" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="logout"
+        app:layout_constraintStart_toStartOf="@+id/map"
+        app:layout_constraintTop_toTopOf="@+id/map" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_laporan"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="18dp"
-        android:text="laporan" />
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/secondaryColor"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:padding="0dp"
+        app:icon="@drawable/ic_baseline_add_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="42dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/map"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Lecana.Button.Circle" />
 
-    <fragment
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_setlocation"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:backgroundTint="@color/secondaryColor"
+        android:fontFamily="@font/roboto_medium"
+        android:text="SET LOCATION"
+        android:textColor="@color/primaryColor"
+        android:visibility="gone"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MapsActivity" />
-</RelativeLayout>
+        map:mapId="4f9c0abe4e037760"/>
+
+    <ImageView
+        android:id="@+id/img_marker"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_marker"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.459" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

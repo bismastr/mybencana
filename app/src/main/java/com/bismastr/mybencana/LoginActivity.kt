@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
             TextUtils.isEmpty(binding.etUsername.text.toString().trim { it <= ' ' }) -> {
                 Toast.makeText(
                     this,
-                    "Please Enter email.",
+                    "Please Enter Email.",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -48,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
             TextUtils.isEmpty(binding.etPassword.text.toString().trim { it <= ' ' }) -> {
                 Toast.makeText(
                     this,
-                    "Please Enter email.",
+                    "Please Enter Password.",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -63,14 +63,14 @@ class LoginActivity : AppCompatActivity() {
                             val userLogin = auth.currentUser
                             Toast.makeText(
                                 this,
-                                "You are Registered Successfully",
+                                "Login Successfull",
                                 Toast.LENGTH_SHORT
                             ).show()
                             intent(userLogin)
                         } else {
                             Toast.makeText(
                                 this,
-                                "Register Failed, Check Your Connection",
+                                "Login Failed, Check Your Connection",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }

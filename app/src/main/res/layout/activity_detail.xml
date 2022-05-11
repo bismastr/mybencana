@@ -1,40 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".DetailActivity">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/img_gambar_laporan"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:src="@drawable/ic_launcher_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        tools:context=".DetailActivity"
+        tools:layout_editor_absoluteX="-4dp"
+        tools:layout_editor_absoluteY="-4dp">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="Title Laporan"
-        android:textSize="36sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_gambar_laporan" />
+        <ImageView
+            android:id="@+id/img_gambar_laporan"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:src="@drawable/ic_baseline_camera_alt_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_deskripsi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="36dp"
-        android:text="Title Laporan"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Lorem Ipsum"
+            android:textColor="@color/black"
+            android:textSize="36sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_gambar_laporan" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/btn_direction"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_baseline_assistant_direction_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_gambar_laporan" />
+
+        <ImageView
+            android:id="@+id/img_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_time"
+            app:layout_constraintStart_toStartOf="@+id/img_marker"
+            app:layout_constraintTop_toBottomOf="@+id/img_marker" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="23-08-2000, 09:00"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/img_time"
+            app:layout_constraintTop_toBottomOf="@+id/tv_longlat" />
+
+        <TextView
+            android:id="@+id/tv_longlat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_light"
+            android:gravity="center_vertical"
+            android:text="-7.1283798721, -128.1233213"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/img_marker"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+        <ImageView
+            android:id="@+id/img_marker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_marker_grey"
+            app:layout_constraintStart_toStartOf="@+id/tv_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+        <TextView
+            android:id="@+id/tv_title_deskripsi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Deskripsi"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/img_marker"
+            app:layout_constraintTop_toBottomOf="@+id/img_marker" />
+
+        <TextView
+            android:id="@+id/tv_deskripsi"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="@string/loremipsum"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.262"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_deskripsi" />
+
+        <TextView
+            android:id="@+id/tv_title_tipe_bencana"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Tipe Bencana"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_deskripsi"
+            app:layout_constraintTop_toBottomOf="@+id/tv_deskripsi" />
+
+        <TextView
+            android:id="@+id/tv_tipe_bencana"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="Gempa Bumi"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_title_tipe_bencana"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_tipe_bencana" />
+
+        <TextView
+            android:id="@+id/tv_title_dampak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Dampak"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_tipe_bencana"
+            app:layout_constraintTop_toBottomOf="@+id/tv_tipe_bencana" />
+
+        <TextView
+            android:id="@+id/tv_dampak"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="@string/loremipsum"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_title_dampak"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_dampak" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
