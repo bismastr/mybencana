@@ -10,7 +10,7 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="42dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/roboto_light"
         android:text="Title"
@@ -19,7 +19,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tip_title"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_title"
         android:layout_centerHorizontal="true"
@@ -35,7 +35,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_title"
-            android:layout_width="328dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/montserrat_light"
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tip_title"
-        android:layout_marginStart="42dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="7dp"
         android:fontFamily="@font/roboto_light"
         android:text="Deskripsi"
@@ -59,7 +59,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tip_deskripsi"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_deskripsi"
         android:layout_centerHorizontal="true"
@@ -75,7 +75,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_deskripsi"
-            android:layout_width="328dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/montserrat_light"
@@ -89,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tip_deskripsi"
-        android:layout_marginStart="42dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="7dp"
         android:fontFamily="@font/roboto_light"
         android:text="Tipe Bencana"
@@ -98,7 +98,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tip_tipe"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="328dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_bencana"
         android:layout_centerHorizontal="true"
@@ -124,7 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tip_tipe"
-        android:layout_marginStart="42dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="7dp"
         android:fontFamily="@font/roboto_light"
         android:text="Dampak"
@@ -133,7 +133,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tip_dampak"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_dampak"
         android:layout_centerHorizontal="true"
@@ -149,7 +149,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_dampak"
-            android:layout_width="328dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/montserrat_light"
@@ -184,8 +184,8 @@
         android:textColor="@color/black" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_below="@+id/tv_tipe"
         android:layout_alignStart="@+id/tip_tipe"
         android:layout_marginStart="0dp"
