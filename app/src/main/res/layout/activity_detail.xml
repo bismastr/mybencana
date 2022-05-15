@@ -23,14 +23,16 @@
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/roboto_bold"
             android:text="Lorem Ipsum"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="72dp"
             android:textColor="@color/black"
-            android:textSize="36sp"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_gambar_laporan" />
 
@@ -39,7 +41,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/ic_baseline_assistant_direction_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_gambar_laporan" />

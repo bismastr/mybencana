@@ -38,16 +38,25 @@ class RegisterActivity : AppCompatActivity() {
             TextUtils.isEmpty(binding.etPassword.text.toString().trim { it <= ' ' }) -> {
                 Toast.makeText(
                     this,
-                    "Please Enter email.",
+                    "Please Enter Password.",
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
+
             else -> {
                 val email: String = binding.etUsername.text.toString().trim { it <= ' ' }
                 val password: String = binding.etPassword.text.toString().trim { it <= ' ' }
 
                 //Firebase
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                    .addOnFailureListener { task ->
+                        Toast.makeText(
+                            this,
+                            task.toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             val firebaseUser: FirebaseUser = task.result!!.user!!
