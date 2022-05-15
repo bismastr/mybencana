@@ -248,7 +248,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
        when(type){
            "Banjir" -> return bitmapDescriptorFromVector(this, R.drawable.banjir_logo)
            "Gempa Bumi" -> return bitmapDescriptorFromVector(this, R.drawable.gempa_logo)
-           "Angin Topan" -> return bitmapDescriptorFromVector(this, R.drawable.angin_logo)
+           "Angin Puting Beliung" -> return bitmapDescriptorFromVector(this, R.drawable.angin_logo)
            "Longsor" -> return bitmapDescriptorFromVector(this, R.drawable.longsor_logo)
            "Kebakaran Hutan" -> return bitmapDescriptorFromVector(this, R.drawable.kahutla_logo)
            "Gelombang Pasang" -> return bitmapDescriptorFromVector(this, R.drawable.gelombang_logo)
